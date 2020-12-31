@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as Speech from 'expo-speech';
-import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, Image, TouchableOpacity, Alert } from 'react-native';
 import Header from './components/Header';
 
 export default class App extends React.Component {
@@ -10,9 +10,23 @@ export default class App extends React.Component {
       word:""
     }
   }
+  checkSC = (string) =>{
+    var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+
+    if(format.test(string)){
+
+      return true;
+    } else {
+
+      return false;
+    }
+  }
   speak = () =>{
-    var thingToSay = this.state.word;
-    Speech.speak(thingToSay);
+    var thingToSay = this.state.word.trim();
+
+    thingToSay === "" || thingToSay === '' || this.checkSC(thingToSay)
+    ? (Alert.alert('Please Enter a valid Word or Speech'))
+    : (Speech.speak(thingToSay))
   }
   render(){
     return (
